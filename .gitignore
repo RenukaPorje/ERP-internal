@@ -1,0 +1,7 @@
+# Claude and Bee working files (personal, not for review)
+.claude/
+*.local.md
+*.local.json
+
+# macOS
+.DS_Store
