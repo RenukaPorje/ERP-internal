@@ -7,9 +7,48 @@ This document describes what the People Platform does and who it serves. The pro
 | | |
 |---|---|
 | **Users** | Fewer than 300 employees, all in India and all on Microsoft 365 |
-| **Sign-in** | Incubyte Microsoft account. Joiners use their personal email before Day 1, for onboarding only. |
-| **Works on** | Laptop and phone browsers |
-| **Hosting** | Data hosted in India |
+
+## Platform at a glance
+
+### Modules
+
+Modules grouped by the area of work they cover. The release for each module is shown in the sections below.
+
+```mermaid
+flowchart TB
+    A1["<b>People and organisation</b><br/>Employee Profile · Teams & Pods · Assignments"]
+    A2["<b>Time off and expenses</b><br/>Leaves · Expenses"]
+    A3["<b>Performance</b><br/>Feedback and 360 reviews · PIP"]
+    A4["<b>Joining and leaving</b><br/>Onboarding · Offboarding"]
+    A5["<b>Communication and documents</b><br/>Policies and Announcements · Letters"]
+    A6["<b>Reporting</b><br/>Reports in use today · Wider reports and dashboards"]
+    B["<b>Shared foundation, used by every module</b><br/>Sign-in and access · Audit trail · Notifications · Data move from Frappe"]
+    A1 ~~~ A2 ~~~ A3 ~~~ A4 ~~~ A5 ~~~ A6 ~~~ B
+    classDef base stroke-width:2px,stroke-dasharray:4 3
+    class B base
+```
+
+How the modules depend on each other:
+- Every module uses the **Employee Profile**, which holds each person's manager and pod lead.
+- **Teams & Pods** adds black-out dates and the "who's away" check to **Leaves**.
+- **Onboarding** starts from the joiner's profile, and **Offboarding** ends their sign-in.
+- **Reports** draw on **Leaves** and **Expenses**.
+
+### High-level architecture
+
+How the platform fits with the people who use it and the systems around it. Technology choices are made in Stage 6.
+
+```mermaid
+flowchart TB
+    U["<b>People</b><br/>Staff sign in with their Incubyte Microsoft account<br/>Joiners use personal email before Day 1, onboarding only"]
+    W["<b>Web app</b><br/>Laptop and phone browsers"]
+    A["<b>Access check</b><br/>On every request, by role"]
+    M["<b>Modules</b><br/>See the module view above"]
+    D[("<b>Data, hosted in India</b><br/>Records, private documents, audit trail")]
+    C["<b>Connected systems</b><br/>Microsoft 365: sign-in, Outlook email, Teams channel<br/>Frappe: one-time data move, then switched off<br/>Finance: approved claims export for payout"]
+    U --> W --> A --> M --> D
+    M <--> C
+```
 
 ## Who uses it
 
@@ -69,14 +108,11 @@ HR creates the record → Employee completes their details → Changes kept as d
 ```
 
 **What it does**
-- Employees view their profile and update their personal details, contact details and emergency contacts.
-- HR creates and maintains each record: role, department, location, manager, pod lead, joining date and employment type. Every employee has a pod lead, who approves their leave.
-- Changes to role, department, location or manager are kept as dated history.
-- Colleagues see a basic directory entry (name, role, department, location, manager and work email) and an org chart.
-- Sensitive details are masked by default. The employee and HR can reveal them deliberately, and every reveal is recorded.
+- Employees keep their personal details, contact details and emergency contacts up to date.
+- HR creates and maintains each record, including the employee's manager and pod lead. Every employee has a pod lead, who approves their leave. Changes to job details are kept as dated history.
+- Colleagues can find each other in a directory and an org chart.
+- Sensitive details are masked, and every reveal is recorded.
 - Employee documents, such as ID proofs and certificates, are stored privately.
-
-**Checks:** the platform rejects a record with missing required details, a work email that is already in use, or a manager choice that would create a reporting loop, and explains why.
 
 ### Leaves
 
@@ -84,19 +120,18 @@ HR creates the record → Employee completes their details → Changes kept as d
 
 ```flow
 Employee applies → Pod lead approves → PST makes the final decision → Employee sets Out of Office
-Special cases: Probation, maternity, paternity, leave of absence? → HR also decides
+Special cases: Probation, maternity, paternity and possibly leave of absence → HR also decides
 ```
 
 **What it does**
-- Employees apply for full-day or half-day leave of any type in use, including fixed, optional and floating holidays. The request shows how many working days it uses, excluding weekends and holidays.
-- Confirmed employees have no leave limit. Everyone can see the leave they have taken this year and their full history.
-- **The pod lead approves or rejects the request first, and PST then makes the final decision** *(to confirm)*. A rejection always includes a reason. PST sees the employee's leave history and whether they are on probation or serving notice.
-- **HR also decides** leave during probation (including long or emergency leave), maternity leave, paternity leave and, possibly, leave of absence.
-- Employees can see which step their request is waiting on. Leave counts only once it is fully approved.
-- Employees on probation are reminded when they request more than 2 days at a stretch or a second leave in the same month. Employees serving notice are reminded that leave may extend their notice period. Reminders do not block the request.
-- HR sets up leave types (including maternity and paternity), holidays, the probation and notice rules, and which cases go to HR. Employees choose their optional and floating holidays up to the set limit.
-- A "who's away" view shows which colleagues in the same department are away, without the leave type or reason.
-- Employees can cancel a request. Everyone involved is notified, and the employee is reminded to set Out of Office in Outlook and Teams.
+- Employees apply for full or half days and see how many working days a request uses.
+- Confirmed employees have unlimited leave. Everyone can see the leave they have taken and their history.
+- **The pod lead approves first, and PST makes the final decision** *(to confirm)*. HR also decides the special cases shown above.
+- Employees can see which step their request is waiting on, and can cancel a request.
+- Employees on probation or serving notice are reminded of the rules that apply to them. Reminders never block a request.
+- HR sets up leave types, holidays and the rules for probation, notice and special cases. Employees choose their optional and floating holidays.
+- A "who's away" view shows colleagues' leave without the type or reason.
+- Once leave is approved, the employee is reminded to set Out of Office in Outlook and Teams.
 
 **In Release 1, PST checks team availability and black-out dates manually.** Teams & Pods automates both checks in Release 3.
 
@@ -111,14 +146,11 @@ Rejected: Finance rejects with a reason → Employee is notified
 ```
 
 **What it does**
-- Employees create a claim with one or more items. Each item has a date, a category, an amount in INR and a receipt. Claims can be saved as drafts.
-- The categories are Conferences, Home office setup, Learning and development, Micromeet, OKR meet, Software tooling, Term insurance, Trainings (in person), Work in person (WIP) and Others. Vehicle expenses are claimed under Others and marked as vehicle expenses.
-- Each claim shows its status: Draft, Submitted, Returned, Approved, Rejected or Exported.
+- Employees claim expenses with receipts, save drafts, and track each claim's status.
+- Claims use the ten categories in use today. Vehicle expenses are claimed under Others and marked as vehicle expenses.
 - Finance approves a claim, rejects it with a reason, or returns it for changes. Nobody can decide their own claim.
-- Possible duplicates and items over their limit are flagged for Finance.
+- Possible duplicates and items over their category limit are flagged for Finance.
 - Finance exports approved claims for payout outside the platform, and each claim is exported only once.
-
-**Checks:** the platform rejects an item without a receipt, with an amount of zero or less, with a future date, or with an unsupported receipt file.
 
 ### Reports in use today
 
@@ -130,9 +162,8 @@ Vehicle claims under Others → Vehicle Expenses (Finance)
 ```
 
 **What it does**
-- **Leave Balance** shows the leave each employee has taken by type, and what remains for types with a limit, such as optional and floating holidays. It is available to HR and PST.
-- **Leave Balance Summary** shows the same information totalled across the company. It is available to HR and PST.
-- **Vehicle Expenses** lists vehicle claims for a chosen date range. It is available to Finance.
+- **Leave Balance** and **Leave Balance Summary** show leave taken by type, for each employee and across the company. They are available to HR and PST.
+- **Vehicle Expenses** lists vehicle claims for a chosen period. It is available to Finance.
 
 ### Sign-in and access
 
@@ -143,10 +174,8 @@ Microsoft sign-in → Role checked on every request → Only permitted screens a
 ```
 
 **What it does**
-- People sign in with their Incubyte Microsoft account. There are no separate passwords, and accounts from outside Incubyte are refused. The only exception is joiners before Day 1 (see Onboarding).
-- Access is checked on every request, not just hidden on screen.
-- Menus and buttons show only what each person can use.
-- Admin assigns roles but cannot see personal data unless they also hold the HR role.
+- People sign in with their Incubyte Microsoft account, with no separate passwords. The only exception is joiners before Day 1 (see Onboarding).
+- Access is checked on every request, and menus show only what each person can use.
 - Sessions time out after a period of inactivity, and leavers lose access immediately.
 
 ### Audit trail
@@ -170,9 +199,9 @@ Action needed → Portal notification + email (summary and link only) → Person
 ```
 
 **What it does**
-- In-portal notifications show an unread count, and emails are sent through Microsoft 365.
-- Emails contain a short summary and a link. They never include leave reasons, claim details, feedback, review content or PIP details.
-- If an email fails, the in-portal notification still appears and the email is retried.
+- People are alerted in the portal and by email when they need to act.
+- Emails carry only a short summary and a link, never personal or performance details.
+- If an email fails, the portal alert still appears and the email is retried.
 
 ### Data move from Frappe
 
@@ -183,10 +212,9 @@ Frappe → Move → Check report → HR and Finance sign off → Frappe switched
 ```
 
 **What it does**
-- Moves people records, all leave records and history, and past expense claims with their receipts. Open claims are closed in Frappe before the move.
-- Holidays are set up fresh rather than moved.
-- A check report shows what moved, what was skipped and why. HR signs off the people and leave data, and Finance signs off the expense data.
-- Running the move again updates existing records instead of creating duplicates.
+- Moves people records, all leave records and history, and past expense claims with their receipts. Holidays are set up fresh.
+- A check report shows what moved and what didn't. HR signs off the people and leave data, and Finance signs off the expense data.
+- The move can be run again safely, without creating duplicates.
 - Pods move in Release 3. HR decides whether feedback, reviews and PIPs are moved or archived.
 
 ## Release 2: Performance and lifecycle
@@ -201,11 +229,9 @@ Review cycle: HR launches → Nominations → Self and peer reviews → Manager 
 ```
 
 **What it does**
-- Anyone can give a colleague feedback at any time, with their name shown. Feedback prompts can always be dismissed.
-- Recipients see the feedback they have received and can choose to share an item with their manager. They can also report an inappropriate item to HR.
-- HR runs review cycles and sets who is included, the questions, and the deadlines for self, peer and manager reviews.
-- Each person writes a self-review and nominates peers. Their manager writes and finalises the final review.
-- The employee reads and acknowledges their finalised review. Acknowledging confirms they have seen it, not that they agree.
+- Anyone can give a colleague feedback at any time, with their name shown *(to confirm)*. Recipients can share an item with their manager, or report it to HR.
+- HR runs review cycles and sets who is included, the questions and the deadlines.
+- Each person writes a self-review and nominates peers. Their manager writes and finalises the review, and the employee acknowledges it (seen, not agreed).
 - Reminders go out before each deadline, and HR tracks completion.
 
 ### PIP
@@ -217,11 +243,10 @@ Manager or HR drafts → HR approves → Employee acknowledges → Check-ins →
 ```
 
 **What it does**
-- HR or the direct manager drafts a plan with goals, success criteria, dates and check-ins.
-- The employee sees the plan only after HR approves it, and then acknowledges it.
-- The manager records progress at each check-in, and the employee can add comments.
+- HR or the direct manager drafts a plan with goals, success criteria, dates and check-ins. The employee sees it only after HR approves it *(to confirm)*, and acknowledges it.
+- The manager records progress at each check-in, and the employee can comment.
 - HR records the outcome: Successful, Extended or Unsuccessful.
-- Only the employee, their current manager and HR can open a PIP. It never appears on profiles, in the directory, on calendars, in search or in reports.
+- A PIP never appears on profiles, in the directory, on calendars, in search or in reports.
 
 ### Onboarding
 
@@ -232,14 +257,11 @@ Offer accepted → TA starts the checklist → Joiner uploads documents → Day 
 ```
 
 **What it does**
-- TA owns onboarding. They set up checklist templates, with tasks due relative to the joining date for TA, HR, the manager and the joiner.
-- Adding a new employee starts their checklist. Each task owner sees their own tasks and is reminded when one is overdue.
-- TA sees every onboarding task and the status of each document, but not the contents of sensitive documents.
-- Before Day 1, joiners sign in with their personal email and see only the onboarding module: their own tasks and document uploads *(to confirm)*. From Day 1 they use their Incubyte Microsoft account.
-- Joiners upload the documents requested of them. Only the joiner and HR can open them.
+- TA owns onboarding and sets up checklist templates, with tasks for TA, HR, the manager and the joiner. Task owners are reminded when a task is overdue.
+- Before Day 1, joiners sign in with their personal email and see only the onboarding module *(to confirm)*. From Day 1 they use their Incubyte Microsoft account.
+- Joiners upload the documents requested of them. TA sees each document's status, not its contents (see TA access above).
 - Once the joiner has started, TA assigns a buddy, schedules a bi-weekly 1:1 between them, and gives the buddy a few tasks.
 - Assets handed over, such as a laptop, are recorded.
-- TA's access to the joiner ends when the checklist is closed.
 
 ### Offboarding
 
@@ -250,7 +272,7 @@ HR starts the exit → PST checklist: assets, handover, access → Last working 
 ```
 
 **What it does**
-- HR starts an exit and sets the last working day. PST owns the exit checklist, which covers asset return, handover and access removal.
+- HR starts an exit and sets the last working day. PST owns the exit checklist: asset return, handover and access removal.
 - If the leaver manages people, HR is prompted to reassign their direct reports.
 - After the last working day, the leaver can no longer sign in. Their record is kept, and only HR can see it.
 
@@ -264,7 +286,7 @@ Employee requests a letter → HR approves (some letters) → Employee downloads
 
 **What it does**
 - HR maintains letter templates, such as employment verification and address proof.
-- Employees request a letter and download it. Some letters need HR approval first.
+- Employees request and download letters. Some letters need HR approval first.
 - Every letter has a reference number and is recorded.
 
 ## Release 3: Organisation and communication
@@ -278,10 +300,10 @@ Publisher posts → Portal + Email + Teams channel, under the publisher's name �
 ```
 
 **What it does**
-- HR publishes policies with a version history. Employees acknowledge key policies, and reminders can be dismissed.
-- HR and named publishers post announcements to everyone, or to selected departments or pods, with optional pinning and an expiry date.
-- Every new policy, policy update and announcement goes out at the same time to the portal, by email, and to the company-wide Teams channel under the publisher's own name.
-- Each item keeps a record of when it was sent, by whom and where. Failed deliveries are retried and can be resent.
+- HR publishes policies with a version history, and employees acknowledge key policies.
+- HR and named publishers post announcements to everyone, or to chosen departments or pods.
+- Every policy and announcement goes out at once to the portal, by email and to the company-wide Microsoft Teams channel, under the publisher's own name.
+- Each item keeps a record of when it was sent, by whom and where. Failed deliveries can be resent.
 
 ### Teams & Pods *(working name)*
 
@@ -292,12 +314,10 @@ Employee applies for leave → Sees pod black-out dates and who's away → PST w
 ```
 
 **What it does**
-- HR creates pods, assigns a lead and adds members. Moves between pods are kept as history.
+- HR creates pods, assigns a lead and adds members, and moves between pods are kept as history. Pods move over from Frappe.
 - Employees see their pod and who in it is away, without the leave type or reason.
-- Each pod member has a role (Dev, QA or BQA), and each pod sets its own black-out dates.
-- When applying for leave, employees see their pod's black-out dates and who is already away.
-- PST is warned if approving leave of more than one day would leave fewer than half of a role available. Floating holidays are not checked.
-- Pods and their members are moved over from Frappe.
+- Each pod sets its black-out dates and each member's pod role (Dev, QA or BQA). Employees see these when applying for leave.
+- PST is warned when approving leave would leave too few people in a pod role.
 
 ### Assignments
 
