@@ -5,3 +5,15 @@
 
 # macOS
 .DS_Store
+
+# Kept locally, off GitHub (to be reworked or not needed for peer review)
+docs/README.md
+docs/archive/
+docs/stage-1-problem-and-vision/README.md
+docs/stage-1-problem-and-vision/03-stakeholders-and-approvals.md
+docs/stage-1-problem-and-vision/04-options-build-vs-buy.md
+docs/stage-2-discovery/README.md
+docs/stage-2-discovery/03-data-to-move.md
+docs/stage-3-product-definition/README.md
+docs/stage-3-product-definition/01-module-map-and-requirements.md
+docs/stage-3-product-definition/02-prd.md

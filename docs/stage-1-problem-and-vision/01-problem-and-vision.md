@@ -1,6 +1,24 @@
-# Vision and Goals
+# Problem and Vision
 
 *Stage 1 · For leadership review · Draft*
+
+## The problem
+
+Incubyte runs its people work (profiles, leave, expenses, feedback and more) on an in-house tool built on Frappe Cloud. It is hard to use, dated, slow, sometimes wrong, missing features we need, and it shows people information beyond what their role should allow. It also holds our most sensitive employee data.
+
+The employee survey (Nov 2026) came back with **mostly low satisfaction** *(exact score to be added)*. Themes, starting with the most raised:
+
+| Theme | What it means |
+|---|---|
+| **Security** | People can see colleagues' information beyond what their role should allow, so they don't trust the tool with their data |
+| **Usability** | Simple tasks take too many steps, so people ask HR instead |
+| **UI/UX design** | Screens are built around data tables, not the job at hand. Menus show options people can't use. |
+| **Functionality** | Some features behave incorrectly, and some are missing (for example policies and announcements, and self-service letters) |
+| **Performance** | The tool is slow |
+
+**Who it affects:** employees lose time on everyday tasks; managers and pod leads find approvals and team information hard to act on; HR / People Success answer questions and fix data the tool should handle; Finance can't rely on expense handling.
+
+**Why now:** security is the top complaint, the problems are in the tool's foundations rather than individual features, and we're small enough to move cleanly (fewer than 300 people, all on Microsoft 365). Doing nothing means continued distrust, lost time every week, and more spreadsheets and workarounds.
 
 ## Vision
 

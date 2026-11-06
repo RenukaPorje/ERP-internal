@@ -1,8 +1,61 @@
-# Functional Spec: Incubyte People Platform
+# Spec: Incubyte People Platform
 
-*Stage 4 · Draft · Pending approval of Stages 1–3*
+*Spec sheet and functional spec · Draft · Pending approval of Stages 1–3*
 
-This spec lists what each module must do, release by release. The [PRD](../../stage-3-product-definition/02-prd.md) is the source of truth. Where they disagree, the PRD wins. Each slice is something people can use on its own. It has a one-line goal and a short checklist that defines "done". Items marked **[Assumption]** are defaults we chose. Each one comes up again under Open questions.
+Part 1 is the spec sheet: the platform's key facts on one page. Part 2 is the functional spec: what each module must do, release by release. Each slice is something people can use on its own, with a one-line goal and a short checklist that defines "done". Items marked **[Assumption]** are defaults we chose; each one comes up again under Open questions.
+
+# Part 1: Spec sheet
+
+## At a glance
+
+| | |
+|---|---|
+| **What it is** | Incubyte's internal web platform for everyday people work |
+| **Replaces** | The in-house HR tool on Frappe Cloud |
+| **Users** | Fewer than 300 employees, all in India |
+| **Sign-in** | Incubyte Microsoft account only |
+| **Access** | Role-based. People see only what their role needs. |
+| **Works on** | Laptop and phone browsers |
+| **Hosting** | Data hosted in India |
+| **Releases** | 3, starting with Profile, Leaves and Expenses |
+
+## Modules
+
+| Release | Module | Key capability |
+|---|---|---|
+| 1 | Employee Profile | Self-service personal details. HR maintains the rest. |
+| 1 | Leaves | Apply, see balances, see who's away. People Success approves. |
+| 1 | Expenses | Claim with receipts, including vehicle expenses. Finance approves and exports. |
+| 1 | Reports | Leave Balance, Leave Balance Summary, Vehicle Expenses |
+| 2 | Feedback & 360 reviews | Feedback anytime, plus HR-run review cycles |
+| 2 | PIP | Confidential plan: employee, manager and HR only |
+| 2 | Onboarding & Offboarding | Shared checklists. Leavers lose access straight away. |
+| 2 | Letters | Self-service standard letters |
+| 3 | Policies & Announcements | Sent to the portal, email and Teams under the publisher's name |
+| 3 | Teams & Pods | "My pod" view, with lead and members |
+| 3 | Assignments | Kept. Purpose to be confirmed. |
+| Later | Wider reports | Dashboards beyond today's reports |
+
+## Connects to
+
+| System | For |
+|---|---|
+| Microsoft Entra ID | Sign-in |
+| Outlook email | Notifications and announcements |
+| Microsoft Teams | Posting announcements to the company-wide channel |
+| Frappe (one-time) | Moving existing data across |
+| Finance's payout process | Receiving approved expense claims |
+
+## Standards (apply to every slice)
+
+| Area | Target |
+|---|---|
+| Access | Checked on every request. Anyone opening something outside their role sees "not found". Menus show only what that person can use. |
+| Ease of use and speed | Common tasks take a few clear steps on laptop or phone. Common screens load in under 2 seconds. |
+| Security and audit | Every change and every view of sensitive data recorded. Independent security review before launch. |
+| Reliability | Backed up daily. No leave or expense record is lost or duplicated. |
+
+# Part 2: Functional spec
 
 ## Who uses it
 
@@ -16,13 +69,6 @@ This spec lists what each module must do, release by release. The [PRD](../../st
 | **Finance** | Approves expense claims and exports them for payout |
 | **TA / Buddy** | Complete their onboarding tasks |
 | **Admin** | Manages roles and settings. Never sees personal data unless also HR. |
-
-## Applies to every slice
-
-- Access is checked every time. Anyone opening something outside their role sees "not found".
-- Menus and buttons show only what that person can use.
-- Common tasks take a few clear steps, on a laptop or phone browser. Common screens load in under 2 seconds.
-- Data is hosted in India and backed up daily. No leave or expense record is lost or duplicated.
 
 ---
 
