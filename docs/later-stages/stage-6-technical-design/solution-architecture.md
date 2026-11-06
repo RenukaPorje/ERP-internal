@@ -1,6 +1,4 @@
-# Architecture: Incubyte People Platform (Core)
-
-_Date: 2026-11-04 · Status: Draft for review (updated for expanded scope: pods, assignments, expenses, feedback & reviews, PIP) · Inputs: [PRD](../../stage-3-product-definition/02-prd.md), [Brainstorm](../../archive/team-brainstorm-notes.md)_
+# Solution Architecture
 
 > This document describes the system's structure, boundaries and key design decisions **independently of technology**. The language, framework and cloud provider are not yet chosen. Section 13 gives the criteria for choosing them. Wherever a decision depends on the stack, it is written as a capability ("managed PostgreSQL with point-in-time restore"), not as a product.
 

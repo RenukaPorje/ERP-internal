@@ -1,0 +1,368 @@
+<title>People Platform PRD</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,650&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: contents rail fixed on the left; reading column on the right opens with a release-lane map, then accordions. */
+:root {
+  --bg: #f3f5f7; --surface: #ffffff; --ink: #172130; --muted: #5a6677; --line: #d9dfe6;
+  --accent: #0d6672; --accent-soft: #e1eff1;
+  --r1: #0d6672; --r1-soft: #e1eff1; --r2: #6b4b97; --r2-soft: #eee8f6;
+  --r3: #9a5c16; --r3-soft: #f6ecdf; --later: #6b7280; --later-soft: #eceef1;
+  --assume: #8a5a00; --assume-soft: #fbf1d9;
+  --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  --rail: 292px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f141b; --surface: #161d26; --ink: #e5eaf0; --muted: #9aa6b5; --line: #29333f;
+  --accent: #56b9c4; --accent-soft: #15333a;
+  --r1: #56b9c4; --r1-soft: #15333a; --r2: #b79be3; --r2-soft: #2a2238;
+  --r3: #e3a65d; --r3-soft: #36291a; --later: #a0a8b4; --later-soft: #232a33;
+  --assume: #f0c46a; --assume-soft: #33291a; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0f141b; --surface: #161d26; --ink: #e5eaf0; --muted: #9aa6b5; --line: #29333f;
+  --accent: #56b9c4; --accent-soft: #15333a;
+  --r1: #56b9c4; --r1-soft: #15333a; --r2: #b79be3; --r2-soft: #2a2238;
+  --r3: #e3a65d; --r3-soft: #36291a; --later: #a0a8b4; --later-soft: #232a33;
+  --assume: #f0c46a; --assume-soft: #33291a; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 400 15px/1.6 var(--body); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--surface); }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+summary { list-style: none; cursor: pointer; }
+summary::-webkit-details-marker { display: none; }
+
+.shell { display: grid; grid-template-columns: var(--rail) minmax(0, 1fr); min-height: 100vh; }
+
+/* Contents rail */
+.rail { position: sticky; top: env(safe-area-inset-top, 0px); height: 100vh; height: 100dvh; overflow: hidden;
+  display: flex; flex-direction: column; background: var(--surface); border-right: 1px solid var(--line);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: 16px; }
+.rail-head { padding-block: 20px 14px; display: grid; gap: 12px; border-bottom: 1px solid var(--line); }
+.brand { font: 650 15px/1.2 var(--display); }
+.brand small { display: block; font: 500 11px/1.4 var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin-top: 4px; }
+.controls { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.controls button { font: 500 13px/1 var(--body); color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 7px; padding: 8px 6px; cursor: pointer; }
+.controls button:hover { border-color: var(--accent); color: var(--accent); }
+.rail nav { overflow-y: auto; padding-block: 12px 24px; flex: 1; overscroll-behavior: contain; }
+.rail ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
+.rail a { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--ink); border-radius: 6px; padding: 5px 8px; }
+.rail a:hover { background: var(--bg); }
+.rail a.active { background: var(--accent-soft); color: var(--accent); }
+.nav-part a { font: 500 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-top: 10px; }
+.nav-h2 a { font-weight: 600; font-size: 13.5px; margin-top: 6px; }
+.nav-h3 a { font-size: 13px; color: var(--muted); padding-left: 24px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex: none; background: var(--later); display: inline-block; }
+.dot.r1 { background: var(--r1); } .dot.r2 { background: var(--r2); } .dot.r3 { background: var(--r3); }
+
+.bar, .scrim { display: none; }
+
+/* Reading column */
+main { min-width: 0; padding-block: 36px 80px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.page { max-width: 920px; margin: 0 auto; display: grid; gap: 22px; }
+header.top { display: grid; gap: 10px; }
+.kicker { font: 500 12px/1.4 var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: .08em; }
+h1 { font: 650 clamp(28px, 4vw, 40px)/1.08 var(--display); margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+.meta { color: var(--muted); margin: 0; }
+h2 { font: 650 21px/1.2 var(--display); margin: 0; text-wrap: balance; }
+p { margin: 0; max-width: 70ch; }
+p.label { font-weight: 600; font-size: 12.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+ul, ol { margin: 0; padding-left: 20px; display: grid; gap: 6px; max-width: 72ch; }
+ul.checks { list-style: none; padding-left: 0; gap: 8px; }
+li.check { display: grid; grid-template-columns: 16px minmax(0, 1fr); gap: 10px; align-items: start; }
+.box { width: 14px; height: 14px; border: 1.5px solid var(--muted); border-radius: 3px; margin-top: 4px; }
+.assume { display: inline-block; font: 500 11.5px/1.5 var(--mono); color: var(--assume); background: var(--assume-soft); border-radius: 4px; padding: 0 6px; }
+.ref { font-weight: 500; border-bottom: 1px dotted var(--muted); }
+code { font: 500 13px var(--mono); }
+.scroll { overflow-x: auto; max-width: 100%; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; background: var(--surface); border: 1px solid var(--line); }
+th, td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--line); }
+thead th { font: 600 12px/1.4 var(--body); text-transform: uppercase; letter-spacing: .05em; color: var(--muted); background: var(--bg); }
+tbody tr:last-child > * { border-bottom: 0; }
+table.kv th { width: 30%; font-weight: 600; color: var(--muted); }
+.intro { display: grid; gap: 14px; }
+
+/* Map of modules */
+.map { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: grid; gap: 14px; }
+.map-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px; }
+.map-head p { color: var(--muted); font-size: 13px; }
+.lanes { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); }
+.lane { display: grid; gap: 8px; align-content: start; }
+.lane-head { display: flex; align-items: center; gap: 8px; font-size: 13px; flex-wrap: wrap; }
+.lane-head small { color: var(--muted); width: 100%; padding-left: 16px; margin-top: -4px; }
+.lane-tiles { display: grid; gap: 6px; }
+.tile { display: flex; gap: 8px; align-items: baseline; text-decoration: none; color: var(--ink); font-size: 13.5px; font-weight: 500;
+  padding: 8px 10px; border-radius: 7px; background: var(--bg); border-left: 3px solid var(--later); }
+.tile.r1 { border-left-color: var(--r1); } .tile.r2 { border-left-color: var(--r2); } .tile.r3 { border-left-color: var(--r3); }
+.tile:hover { background: var(--accent-soft); color: var(--accent); }
+.tile-num { font: 500 11px var(--mono); color: var(--muted); flex: none; }
+
+/* Collapsible blocks */
+.block { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; scroll-margin-top: 20px; }
+.block > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; }
+.block > summary:hover h2 { color: var(--accent); }
+.block-body { padding: 4px 18px 20px; display: grid; gap: 14px; }
+.chev { flex: none; width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--line); position: relative; }
+.chev::before { content: ""; position: absolute; left: 8px; top: 6px; width: 6px; height: 6px; border-right: 1.5px solid var(--muted); border-bottom: 1.5px solid var(--muted); transform: rotate(45deg); transition: transform .15s; }
+details[open] > summary .chev::before { transform: translate(0, 3px) rotate(-135deg); }
+
+/* Release sections and cards */
+.release { display: grid; gap: 12px; scroll-margin-top: 20px; padding-top: 6px; }
+.release-head { display: flex; align-items: center; gap: 10px; }
+.release-head .dot { width: 10px; height: 10px; }
+.cards { display: grid; gap: 10px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--later); border-radius: 10px; scroll-margin-top: 20px; min-width: 0; }
+.card.r1 { border-left-color: var(--r1); } .card.r2 { border-left-color: var(--r2); } .card.r3 { border-left-color: var(--r3); }
+.card > summary { padding: 14px 52px 14px 16px; display: grid; gap: 5px; position: relative; }
+.card > summary .chev { position: absolute; right: 14px; top: 14px; }
+.card > summary:hover .card-title { color: var(--accent); }
+.card-top { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.chip, .num, .flag, .count { font: 500 11px/1.6 var(--mono); border-radius: 4px; padding: 0 6px; }
+.chip { color: var(--later); background: var(--later-soft); }
+.chip.r1 { color: var(--r1); background: var(--r1-soft); } .chip.r2 { color: var(--r2); background: var(--r2-soft); } .chip.r3 { color: var(--r3); background: var(--r3-soft); }
+.num, .count { color: var(--muted); border: 1px solid var(--line); }
+.flag { color: var(--assume); background: var(--assume-soft); }
+.card-title { font: 650 17px/1.25 var(--display); }
+.lede { color: var(--muted); font-size: 14px; max-width: 70ch; }
+.card-body { padding: 14px 16px 18px; display: grid; gap: 12px; border-top: 1px solid var(--line); }
+.detail-head { font: 600 12.5px/1.4 var(--body); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 6px 0 0; padding-top: 12px; border-top: 1px dashed var(--line); }
+
+/* Requirement groups */
+.sub { border: 1px solid var(--line); border-radius: 8px; background: var(--bg); }
+.sub > summary { display: flex; align-items: center; gap: 10px; padding: 9px 12px; font-weight: 600; font-size: 14px; }
+.sub > summary::before { content: ""; width: 6px; height: 6px; border-right: 1.5px solid var(--muted); border-bottom: 1.5px solid var(--muted); transform: rotate(-45deg); transition: transform .15s; flex: none; }
+.sub[open] > summary::before { transform: rotate(45deg); }
+.sub > summary .count { margin-left: auto; background: var(--surface); }
+.sub > ul { padding: 4px 14px 14px; }
+
+/* Flow diagrams */
+.flow { display: grid; gap: 8px; padding: 12px; background: var(--bg); border-radius: 8px; }
+.flow-row { display: grid; gap: 6px; }
+.flow-label { font: 500 11px/1.4 var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+.steps { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.step { background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; font-size: 13px; line-height: 1.4; }
+.card.r1 .step:first-child { border-color: var(--r1); } .card.r2 .step:first-child { border-color: var(--r2); } .card.r3 .step:first-child { border-color: var(--r3); }
+.arrow { width: 16px; height: 1.5px; background: var(--muted); position: relative; flex: none; }
+.arrow::after { content: ""; position: absolute; right: -1px; top: -3px; border: 4px solid transparent; border-left: 5px solid var(--muted); border-right: 0; }
+
+.part { display: flex; align-items: baseline; gap: 12px; padding-top: 18px; border-top: 2px solid var(--ink); scroll-margin-top: 20px; }
+.part span { font: 500 12px/1 var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+.part-title { font-size: 26px; }
+
+@media (max-width: 900px) {
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  .rail { position: fixed; z-index: 40; left: 0; top: 0; bottom: 0; width: min(86vw, 320px); transform: translateX(-102%); transition: transform .2s ease;
+    padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); height: auto; }
+  body.nav-open .rail { transform: none; }
+  body.nav-open .scrim { display: block; position: fixed; inset: 0; z-index: 35; background: rgb(0 0 0 / .35); }
+  .bar { display: flex; position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; align-items: center; gap: 10px; justify-content: space-between;
+    background: var(--surface); border-bottom: 1px solid var(--line); padding-block: 8px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .bar .menu { font: 600 14px/1 var(--body); color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px; cursor: pointer; }
+  .bar .controls { width: 220px; }
+  main { padding-block: 22px 64px; }
+  .block, .release, .card, .part { scroll-margin-top: 72px; }
+}
+@media (prefers-reduced-motion: reduce) { .rail, .chev::before, .sub > summary::before { transition: none; } }
+</style>
+
+<div class="bar">
+  <button class="menu" type="button" id="menu-btn" aria-controls="rail" aria-expanded="false">Contents</button>
+  <div class="controls">
+    <button type="button" id="bar-expand" data-act="expand">Expand all</button>
+    <button type="button" id="bar-collapse" data-act="collapse">Collapse all</button>
+  </div>
+</div>
+<div class="scrim" id="scrim"></div>
+<div class="shell">
+  <aside class="rail" id="rail" aria-label="Contents">
+    <div class="rail-head">
+      <div class="brand">Incubyte People Platform<small>PRD · 18 modules</small></div>
+      <div class="controls">
+        <button type="button" id="rail-expand" data-act="expand">Expand all</button>
+        <button type="button" id="rail-collapse" data-act="collapse">Collapse all</button>
+      </div>
+    </div>
+    <nav><ul>
+<li class="nav-h2"><a href="#summary">Summary</a></li>
+<li class="nav-h2"><a href="#who-uses-it">Who uses it</a></li>
+<li class="nav-h3"><a href="#talent-acquisition-access-during-onboarding">Talent Acquisition access during onboarding</a></li>
+<li class="nav-h2"><a href="#who-sees-sensitive-information">Who sees sensitive information</a></li>
+<li class="nav-h2"><a href="#release-1-core"><span class="dot r1" aria-hidden="true"></span>Release 1: Core</a></li>
+<li class="nav-h3"><a href="#employee-profile">Employee Profile</a></li>
+<li class="nav-h3"><a href="#leaves">Leaves</a></li>
+<li class="nav-h3"><a href="#expenses">Expenses</a></li>
+<li class="nav-h3"><a href="#reports-in-use-today">Reports in use today</a></li>
+<li class="nav-h3"><a href="#sign-in-and-access">Sign-in and access</a></li>
+<li class="nav-h3"><a href="#audit-trail">Audit trail</a></li>
+<li class="nav-h3"><a href="#notifications">Notifications</a></li>
+<li class="nav-h3"><a href="#data-move-from-frappe">Data move from Frappe</a></li>
+<li class="nav-h2"><a href="#release-2-performance-and-lifecycle"><span class="dot r2" aria-hidden="true"></span>Release 2: Performance and lifecycle</a></li>
+<li class="nav-h3"><a href="#feedback-and-360-reviews">Feedback and 360 reviews</a></li>
+<li class="nav-h3"><a href="#pip">PIP</a></li>
+<li class="nav-h3"><a href="#onboarding">Onboarding</a></li>
+<li class="nav-h3"><a href="#offboarding">Offboarding</a></li>
+<li class="nav-h3"><a href="#letters">Letters</a></li>
+<li class="nav-h2"><a href="#release-3-organisation-and-communication"><span class="dot r3" aria-hidden="true"></span>Release 3: Organisation and communication</a></li>
+<li class="nav-h3"><a href="#policies-and-announcements">Policies and Announcements</a></li>
+<li class="nav-h3"><a href="#teams-pods">Teams &amp; Pods</a></li>
+<li class="nav-h3"><a href="#assignments">Assignments</a></li>
+<li class="nav-h2"><a href="#later"><span class="dot later" aria-hidden="true"></span>Later</a></li>
+<li class="nav-h3"><a href="#wider-reports-and-dashboards">Wider reports and dashboards</a></li>
+<li class="nav-h2"><a href="#quality-standards">Quality standards</a></li>
+<li class="nav-h2"><a href="#main-risks">Main risks</a></li>
+<li class="nav-h2"><a href="#decisions-so-far">Decisions so far</a></li>
+<li class="nav-h2"><a href="#open-questions">Open questions</a></li>
+    </ul></nav>
+  </aside>
+  <main>
+    <div class="page">
+      <header class="top">
+        <span class="kicker">PRD</span>
+        <h1>Product Requirements Document (PRD)</h1>
+      </header>
+<section class="map" aria-label="Map of modules"><div class="map-head"><h2>Map of modules</h2><p>Select one to open it.</p></div><div class="lanes"><div class="lane r1"><div class="lane-head"><span class="dot r1"></span><strong>Release 1</strong><small>Core</small></div><div class="lane-tiles"><a class="tile r1" href="#employee-profile"><span>Employee Profile</span></a><a class="tile r1" href="#leaves"><span>Leaves</span></a><a class="tile r1" href="#expenses"><span>Expenses</span></a><a class="tile r1" href="#reports-in-use-today"><span>Reports in use today</span></a><a class="tile r1" href="#sign-in-and-access"><span>Sign-in and access</span></a><a class="tile r1" href="#audit-trail"><span>Audit trail</span></a><a class="tile r1" href="#notifications"><span>Notifications</span></a><a class="tile r1" href="#data-move-from-frappe"><span>Data move from Frappe</span></a></div></div><div class="lane r2"><div class="lane-head"><span class="dot r2"></span><strong>Release 2</strong><small>Performance and lifecycle</small></div><div class="lane-tiles"><a class="tile r2" href="#feedback-and-360-reviews"><span>Feedback and 360 reviews</span></a><a class="tile r2" href="#pip"><span>PIP</span></a><a class="tile r2" href="#onboarding"><span>Onboarding</span></a><a class="tile r2" href="#offboarding"><span>Offboarding</span></a><a class="tile r2" href="#letters"><span>Letters</span></a></div></div><div class="lane r3"><div class="lane-head"><span class="dot r3"></span><strong>Release 3</strong><small>Organisation and communication</small></div><div class="lane-tiles"><a class="tile r3" href="#policies-and-announcements"><span>Policies and Announcements</span></a><a class="tile r3" href="#teams-pods"><span>Teams &amp; Pods <em>(working name)</em></span></a><a class="tile r3" href="#assignments"><span>Assignments</span></a></div></div><div class="lane later"><div class="lane-head"><span class="dot later"></span><strong>Later</strong></div><div class="lane-tiles"><a class="tile later" href="#wider-reports-and-dashboards"><span>Wider reports and dashboards</span></a></div></div></div></section>
+<details class="block" id="summary" open><summary><h2>Summary</h2><span class="chev" aria-hidden="true"></span></summary><div class="block-body"><p>This document describes what the People Platform does and who it serves. The problem, goals, scope and release plan are set out in <span class="ref">Vision and Scope</span>, and the detailed, testable behaviour of each module is in the <span class="ref">Functional Specification</span>.</p>
+<div class="scroll"><table class="kv"><tbody><tr><th scope="row"><strong>Users</strong></th><td>Fewer than 300 employees, all in India and all on Microsoft 365</td></tr><tr><th scope="row"><strong>Sign-in</strong></th><td>Incubyte Microsoft account only</td></tr><tr><th scope="row"><strong>Works on</strong></th><td>Laptop and phone browsers</td></tr><tr><th scope="row"><strong>Hosting</strong></th><td>Data hosted in India</td></tr></tbody></table></div>
+</div></details>
+<details class="block" id="who-uses-it"><summary><h2>Who uses it</h2><span class="chev" aria-hidden="true"></span></summary><div class="block-body"><p>Each role sees only what it needs to do its job. One person can hold several roles; for example, a manager is also an employee.</p>
+<div class="scroll"><table><thead><tr><th scope="col">Role</th><th scope="col">What they do</th><th scope="col">What they see</th></tr></thead><tbody><tr><td><strong>Employee</strong></td><td>Maintains their profile, applies for leave, claims expenses, and gives and receives feedback</td><td>Their own record and a basic colleague directory</td></tr><tr><td><strong>Pod Lead</strong></td><td>Approves their members' leave as the first step</td><td>Their members' work profiles and leave requests, but never feedback, reviews or PIPs</td></tr><tr><td><strong>People Success Team (PST)</strong></td><td>Makes the final decision on leave and runs offboarding</td><td>Leave requests and history, and exit checklists</td></tr><tr><td><strong>HR</strong></td><td>Owns employee records, leave rules, special leave cases, review cycles, PIPs, policies and letters</td><td>Everyone, with sensitive details revealed only through a recorded action</td></tr><tr><td><strong>Manager</strong></td><td>Reviews their team and runs PIPs with HR</td><td>Their reporting line, but never sensitive details</td></tr><tr><td><strong>Finance</strong></td><td>Approves expense claims and sends them for payout</td><td>All expense claims, and no other personal information</td></tr><tr><td><strong>Talent Acquisition (TA)</strong></td><td>Runs onboarding from offer acceptance until the joiner has settled in</td><td>Everything needed to run onboarding (see below)</td></tr><tr><td><strong>Buddy</strong></td><td>Supports the joiner once they have started, through a few tasks set by TA</td><td>Only the tasks assigned to them</td></tr><tr><td><strong>Admin</strong></td><td>Manages roles and settings</td><td>Settings only, and no personal data unless they also hold the HR role</td></tr></tbody></table></div>
+<div class="cards">
+<details class="card " id="talent-acquisition-access-during-onboarding"><summary><span class="card-top"></span><span class="card-title">Talent Acquisition access during onboarding</span><span class="lede">TA sees everything needed to run onboarding, and the status of sensitive documents rather than their contents.</span><span class="chev" aria-hidden="true"></span></summary><div class="card-body"><p>TA needs a complete view of onboarding, but not of the joiner's sensitive documents. The rule is simple: <strong>TA sees the status of a sensitive document, not its contents.</strong></p>
+<div class="scroll"><table><thead><tr><th scope="col">TA can see</th><th scope="col">TA cannot see</th></tr></thead><tbody><tr><td>Name, role, team, joining date and work location</td><td>The contents of ID documents such as PAN, Aadhaar or passport</td></tr><tr><td>Personal email and phone, until the work account is active</td><td>Bank details</td></tr><tr><td>Offer status and the confirmed joining date</td><td>Salary details after the offer stage</td></tr><tr><td>Every onboarding task, its owner and its due date</td><td>Medical or health declarations and insurance nominees</td></tr><tr><td>Whether each document is submitted, verified or missing</td><td>The full background check report (TA sees only whether it is clear or flagged)</td></tr><tr><td>Laptop, ID card and access requests</td><td>Emergency contacts</td></tr><tr><td>The buddy assignment and the bi-weekly 1:1 schedule</td><td>Anything after onboarding, such as feedback, reviews, leave or expenses</td></tr></tbody></table></div>
+<p>TA's access to a joiner ends when their onboarding checklist is closed. If TA ever needs to open a sensitive document, HR provides it, and the access is recorded.</p></div></details>
+</div>
+</div></details>
+<details class="block" id="who-sees-sensitive-information"><summary><h2>Who sees sensitive information</h2><span class="chev" aria-hidden="true"></span></summary><div class="block-body"><div class="scroll"><table><thead><tr><th scope="col">Information</th><th scope="col">Who can see it</th><th scope="col">Who never sees it</th></tr></thead><tbody><tr><td><strong>Personal and sensitive details</strong> (salary, ID numbers, bank details)</td><td>The employee and HR, masked until revealed through a recorded action</td><td>Managers, pod leads, TA, Finance and Admin</td></tr><tr><td><strong>Leave reasons</strong></td><td>The employee, their approvers (pod lead and PST) and HR</td><td>Colleagues, and managers who are not approvers</td></tr><tr><td><strong>Expense claims and receipts</strong></td><td>The claimant and Finance</td><td>Everyone else</td></tr><tr><td><strong>Feedback</strong></td><td>The giver, the recipient and HR. The recipient's manager sees an item only if the recipient shares it.</td><td>Pod leads, skip-level managers, Admin, Finance and colleagues</td></tr><tr><td><strong>Review content</strong></td><td>The employee, each reviewer (their own review only), the direct manager and HR</td><td>Pod leads, skip-level managers, Admin, Finance and colleagues</td></tr><tr><td><strong>PIPs</strong></td><td>The employee, their current direct manager and HR</td><td>Everyone else. A PIP never appears anywhere else in the platform.</td></tr></tbody></table></div>
+<p>Anyone who tries to open something outside their role sees "not found", and the attempt is recorded.</p>
+</div></details>
+<section class="release r1" id="release-1-core"><div class="release-head"><span class="dot r1" aria-hidden="true"></span><h2>Release 1: Core</h2></div>
+<div class="cards">
+<details class="card r1" id="employee-profile"><summary><span class="card-top"><span class="chip r1">Release 1</span></span><span class="card-title">Employee Profile</span><span class="lede">One trusted record for each person. Employees keep their own details current, and HR maintains the rest.</span><span class="chev" aria-hidden="true"></span></summary><div class="card-body"><div class="flow" role="img" aria-label="Process flow"><div class="flow-row"><div class="steps"><span class="step">HR creates the record</span><span class="arrow" aria-hidden="true"></span><span class="step">Employee completes their details</span><span class="arrow" aria-hidden="true"></span><span class="step">Changes kept as dated history</span></div></div></div>
+<p class="label">What it does</p>
+<ul><li>Employees view their profile and update their personal details, contact details and emergency contacts.</li><li>HR creates and maintains each record: role, department, location, manager, pod lead, joining date and employment type. Every employee has a pod lead, who approves their leave.</li><li>Changes to role, department, location or manager are kept as dated history.</li><li>Colleagues see a basic directory entry (name, role, department, location, manager and work email) and an org chart.</li><li>Sensitive details are masked by default. The employee and HR can reveal them deliberately, and every reveal is recorded.</li><li>Employee documents, such as ID proofs and certificates, are stored privately.</li></ul>
+<p><strong>Checks:</strong> the platform rejects a record with missing required details, a work email that is already in use, or a manager choice that would create a reporting loop, and explains why.</p></div></details>
+<details class="card r1" id="leaves"><summary><span class="card-top"><span class="chip r1">Release 1</span></span><span class="card-title">Leaves</span><span class="lede">Employees apply in a few steps. The pod lead approves, PST makes the final decision, and HR handles special cases. Confirmed employees have unlimited leave.</span><span class="chev" aria-hidden="true"></span></summary><div class="card-body"><div class="flow" role="img" aria-label="Process flow"><div class="flow-row"><div class="steps"><span class="step">Employee applies</span><span class="arrow" aria-hidden="true"></span><span class="step">Pod lead approves</span><span class="arrow" aria-hidden="true"></span><span class="step">PST makes the final decision</span><span class="arrow" aria-hidden="true"></span><span class="step">Employee sets Out of Office</span></div></div><div class="flow-row"><span class="flow-label">Special cases</span><div class="steps"><span class="step">Probation, maternity, paternity, leave of absence?</span><span class="arrow" aria-hidden="true"></span><span class="step">HR also decides</span></div></div></div>
+<p class="label">What it does</p>
+<ul><li>Employees apply for full-day or half-day leave of any type in use, including fixed, optional and floating holidays. The request shows how many working days it uses, excluding weekends and holidays.</li><li>Confirmed employees have no leave limit. Everyone can see the leave they have taken this year and their full history.</li><li><strong>The pod lead approves or rejects the request first, and PST then makes the final decision</strong> <em>(to confirm)</em>. A rejection always includes a reason. PST sees the employee's leave history and whether they are on probation or serving notice.</li><li><strong>HR also decides</strong> leave during probation (including long or emergency leave), maternity leave, paternity leave and, possibly, leave of absence.</li><li>Employees can see which step their request is waiting on. Leave counts only once it is fully approved.</li><li>Employees on probation are reminded when they request more than 2 days at a stretch or a second leave in the same month. Employees serving notice are reminded that leave may extend their notice period. Reminders do not block the request.</li><li>HR sets up leave types (including maternity and paternity), holidays, the probation and notice rules, and which cases go to HR. Employees choose their optional and floating holidays up to the set limit.</li><li>A "who's away" view shows which colleagues in the same department are away, without the leave type or reason.</li><li>Employees can cancel a request. Everyone involved is notified, and the employee is reminded to set Out of Office in Outlook and Teams.</li></ul>
+<p><strong>In Release 1, PST checks team availability and black-out dates manually.</strong> Teams &amp; Pods automates both checks in Release 3.</p></div></details>
+<details class="card r1" id="expenses"><summary><span class="card-top"><span class="chip r1">Release 1</span></span><span class="card-title">Expenses</span><span class="lede">Employees claim expenses with receipts and track their progress. Finance approves claims and sends them for payout.</span><span class="chev" aria-hidden="true"></span></summary><div class="card-body"><div class="flow" role="img" aria-label="Process flow"><div class="flow-row"><div class="steps"><span class="step">Draft</span><span class="arrow" aria-hidden="true"></span><span class="step">Submitted</span><span class="arrow" aria-hidden="true"></span><span class="step">Finance review</span><span class="arrow" aria-hidden="true"></span><span class="step">Approved</span><span class="arrow" aria-hidden="true"></span><span class="step">Exported for payout</span></div></div><div class="flow-row"><span class="flow-label">Returned</span><div class="steps"><span class="step">Finance returns the claim</span><span class="arrow" aria-hidden="true"></span><span class="step">Employee corrects and resubmits</span></div></div><div class="flow-row"><span class="flow-label">Rejected</span><div class="steps"><span class="step">Finance rejects with a reason</span><span class="arrow" aria-hidden="true"></span><span class="step">Employee is notified</span></div></div></div>
+<p class="label">What it does</p>
+<ul><li>Employees create a claim with one or more items. Each item has a date, a category, an amount in INR and a receipt. Claims can be saved as drafts.</li><li>The categories are Conferences, Home office setup, Learning and development, Micromeet, OKR meet, Software tooling, Term insurance, Trainings (in person), Work in person (WIP) and Others. Vehicle expenses are claimed under Others and marked as vehicle expenses.</li><li>Each claim shows its status: Draft, Submitted, Returned, Approved, Rejected or Exported.</li><li>Finance approves a claim, rejects it with a reason, or returns it for changes. Nobody can decide their own claim.</li><li>Possible duplicates and items over their limit are flagged for Finance.</li><li>Finance exports approved claims for payout outside the platform, and each claim is exported only once.</li></ul>
+<p><strong>Checks:</strong> the platform rejects an item without a receipt, with an amount of zero or less, with a future date, or with an unsupported receipt file.</p></div></details>
+<details class="card r1" id="reports-in-use-today"><summary><span class="card-top"><span class="chip r1">Release 1</span></span><span class="card-title">Reports in use today</span><span class="lede">The three reports people rely on today: Leave Balance, Leave Balance Summary and Vehicle Expenses.</span><span class="chev" aria-hidden="true"></span></summary><div class="card-body"><div class="flow" role="img" aria-label="Process flow"><div class="flow-row"><div class="steps"><span class="step">Leave records</span><span class="arrow" aria-hidden="true"></span><span class="step">Leave Balance and Leave Balance Summary (HR, PST)</span></div></div><div class="flow-row"><div class="steps"><span class="step">Vehicle claims under Others</span><span class="arrow" aria-hidden="true"></span><span class="step">Vehicle Expenses (Finance)</span></div></div></div>
+<p class="label">What it does</p>
+<ul><li><strong>Leave Balance</strong> shows the leave each employee has taken by type, and what remains for types with a limit, such as optional and floating holidays. It is available to HR and PST.</li><li><strong>Leave Balance Summary</strong> shows the same information totalled across the company. It is available to HR and PST.</li><li><strong>Vehicle Expenses</strong> lists vehicle claims for a chosen date range. It is available to Finance.</li></ul></div></details>
+<details class="card r1" id="sign-in-and-access"><summary><span class="card-top"><span class="chip r1">Release 1</span></span><span class="card-title">Sign-in and access</span><span class="lede">One Microsoft sign-in, and each person sees only what their role requires.</span><span class="chev" aria-hidden="true"></span></summary><div class="card-body"><div class="flow" role="img" aria-label="Process flow"><div class="flow-row"><div class="steps"><span class="step">Microsoft sign-in</span><span class="arrow" aria-hidden="true"></span><span class="step">Role checked on every request</span><span class="arrow" aria-hidden="true"></span><span class="step">Only permitted screens and data</span></div></div></div>
+<p class="label">What it does</p>
+<ul><li>People sign in with their Incubyte Microsoft account. There are no separate passwords, and accounts from outside Incubyte are refused.</li><li>Access is checked on every request, not just hidden on screen.</li><li>Menus and buttons show only what each person can use.</li><li>Admin assigns roles but cannot see personal data unless they also hold the HR role.</li><li>Sessions time out after a period of inactivity, and leavers lose access immediately.</li></ul></div></details>
+<details class="card r1" id="audit-trail"><summary><span class="card-top"><span class="chip r1">Release 1</span></span><span class="card-title">Audit trail</span><span class="lede">A permanent record of who did what, and who viewed sensitive information.</span><span class="chev" aria-hidden="true"></span></summary><div class="card-body"><div class="flow" role="img" aria-label="Process flow"><div class="flow-row"><div class="steps"><span class="step">Change, sign-in or sensitive view</span><span class="arrow" aria-hidden="true"></span><span class="step">Permanent entry</span><span class="arrow" aria-hidden="true"></span><span class="step">HR searches</span></div></div></div>
+<p class="label">What it does</p>
+<ul><li>Records every change, sign-in and denied access, and every view of sensitive data, feedback, reviews or PIPs.</li><li>Entries cannot be edited or deleted. HR can search the record.</li></ul></div></details>
+<details class="card r1" id="notifications"><summary><span class="card-top"><span class="chip r1">Release 1</span></span><span class="card-title">Notifications</span><span class="lede">Email and in-portal alerts whenever someone needs to act.</span><span class="chev" aria-hidden="true"></span></summary><div class="card-body"><div class="flow" role="img" aria-label="Process flow"><div class="flow-row"><div class="steps"><span class="step">Action needed</span><span class="arrow" aria-hidden="true"></span><span class="step">Portal notification + email (summary and link only)</span><span class="arrow" aria-hidden="true"></span><span class="step">Person opens the item</span></div></div></div>
+<p class="label">What it does</p>
+<ul><li>In-portal notifications show an unread count, and emails are sent through Microsoft 365.</li><li>Emails contain a short summary and a link. They never include leave reasons, claim details, feedback, review content or PIP details.</li><li>If an email fails, the in-portal notification still appears and the email is retried.</li></ul></div></details>
+<details class="card r1" id="data-move-from-frappe"><summary><span class="card-top"><span class="chip r1">Release 1</span></span><span class="card-title">Data move from Frappe</span><span class="lede">Bring today's data across, verify it, and switch Frappe off.</span><span class="chev" aria-hidden="true"></span></summary><div class="card-body"><div class="flow" role="img" aria-label="Process flow"><div class="flow-row"><div class="steps"><span class="step">Frappe</span><span class="arrow" aria-hidden="true"></span><span class="step">Move</span><span class="arrow" aria-hidden="true"></span><span class="step">Check report</span><span class="arrow" aria-hidden="true"></span><span class="step">HR and Finance sign off</span><span class="arrow" aria-hidden="true"></span><span class="step">Frappe switched off</span></div></div></div>
+<p class="label">What it does</p>
+<ul><li>Moves people records, all leave records and history, and past expense claims with their receipts. Open claims are closed in Frappe before the move.</li><li>Holidays are set up fresh rather than moved.</li><li>A check report shows what moved, what was skipped and why. HR signs off the people and leave data, and Finance signs off the expense data.</li><li>Running the move again updates existing records instead of creating duplicates.</li><li>Pods move in Release 3. HR decides whether feedback, reviews and PIPs are moved or archived.</li></ul></div></details>
+</div>
+</section>
+<section class="release r2" id="release-2-performance-and-lifecycle"><div class="release-head"><span class="dot r2" aria-hidden="true"></span><h2>Release 2: Performance and lifecycle</h2></div>
+<div class="cards">
+<details class="card r2" id="feedback-and-360-reviews"><summary><span class="card-top"><span class="chip r2">Release 2</span></span><span class="card-title">Feedback and 360 reviews</span><span class="lede">Feedback at any time, plus 360 review cycles run by HR, all private to the people involved.</span><span class="chev" aria-hidden="true"></span></summary><div class="card-body"><div class="flow" role="img" aria-label="Process flow"><div class="flow-row"><span class="flow-label">Anytime</span><div class="steps"><span class="step">Colleague gives feedback</span><span class="arrow" aria-hidden="true"></span><span class="step">Recipient reads</span><span class="arrow" aria-hidden="true"></span><span class="step">Optionally shares with manager</span></div></div><div class="flow-row"><span class="flow-label">Review cycle</span><div class="steps"><span class="step">HR launches</span><span class="arrow" aria-hidden="true"></span><span class="step">Nominations</span><span class="arrow" aria-hidden="true"></span><span class="step">Self and peer reviews</span><span class="arrow" aria-hidden="true"></span><span class="step">Manager finalises</span><span class="arrow" aria-hidden="true"></span><span class="step">Employee acknowledges</span></div></div></div>
+<p class="label">What it does</p>
+<ul><li>Anyone can give a colleague feedback at any time, with their name shown. Feedback prompts can always be dismissed.</li><li>Recipients see the feedback they have received and can choose to share an item with their manager. They can also report an inappropriate item to HR.</li><li>HR runs review cycles and sets who is included, the questions, and the deadlines for self, peer and manager reviews.</li><li>Each person writes a self-review and nominates peers. Their manager writes and finalises the final review.</li><li>The employee reads and acknowledges their finalised review. Acknowledging confirms they have seen it, not that they agree.</li><li>Reminders go out before each deadline, and HR tracks completion.</li></ul></div></details>
+<details class="card r2" id="pip"><summary><span class="card-top"><span class="chip r2">Release 2</span></span><span class="card-title">PIP</span><span class="lede">A fair, structured and strictly confidential plan to help someone improve.</span><span class="chev" aria-hidden="true"></span></summary><div class="card-body"><div class="flow" role="img" aria-label="Process flow"><div class="flow-row"><div class="steps"><span class="step">Manager or HR drafts</span><span class="arrow" aria-hidden="true"></span><span class="step">HR approves</span><span class="arrow" aria-hidden="true"></span><span class="step">Employee acknowledges</span><span class="arrow" aria-hidden="true"></span><span class="step">Check-ins</span><span class="arrow" aria-hidden="true"></span><span class="step">HR records the outcome</span></div></div></div>
+<p class="label">What it does</p>
+<ul><li>HR or the direct manager drafts a plan with goals, success criteria, dates and check-ins.</li><li>The employee sees the plan only after HR approves it, and then acknowledges it.</li><li>The manager records progress at each check-in, and the employee can add comments.</li><li>HR records the outcome: Successful, Extended or Unsuccessful.</li><li>Only the employee, their current manager and HR can open a PIP. It never appears on profiles, in the directory, on calendars, in search or in reports.</li></ul></div></details>
+<details class="card r2" id="onboarding"><summary><span class="card-top"><span class="chip r2">Release 2</span></span><span class="card-title">Onboarding</span><span class="lede">TA runs a shared checklist so every joiner has a smooth start.</span><span class="chev" aria-hidden="true"></span></summary><div class="card-body"><div class="flow" role="img" aria-label="Process flow"><div class="flow-row"><div class="steps"><span class="step">Offer accepted</span><span class="arrow" aria-hidden="true"></span><span class="step">TA starts the checklist</span><span class="arrow" aria-hidden="true"></span><span class="step">Joiner uploads documents</span><span class="arrow" aria-hidden="true"></span><span class="step">Day 1</span><span class="arrow" aria-hidden="true"></span><span class="step">TA assigns buddy and bi-weekly 1:1</span><span class="arrow" aria-hidden="true"></span><span class="step">Checklist closed, TA access ends</span></div></div></div>
+<p class="label">What it does</p>
+<ul><li>TA owns onboarding. They set up checklist templates, with tasks due relative to the joining date for TA, HR, the manager and the joiner.</li><li>Adding a new employee starts their checklist. Each task owner sees their own tasks and is reminded when one is overdue.</li><li>TA sees every onboarding task and the status of each document, but not the contents of sensitive documents.</li><li>Joiners upload the documents requested of them. Only the joiner and HR can open them.</li><li>Once the joiner has started, TA assigns a buddy, schedules a bi-weekly 1:1 between them, and gives the buddy a few tasks.</li><li>Assets handed over, such as a laptop, are recorded.</li><li>TA's access to the joiner ends when the checklist is closed.</li></ul></div></details>
+<details class="card r2" id="offboarding"><summary><span class="card-top"><span class="chip r2">Release 2</span></span><span class="card-title">Offboarding</span><span class="lede">A clean, complete exit, with access removed immediately.</span><span class="chev" aria-hidden="true"></span></summary><div class="card-body"><div class="flow" role="img" aria-label="Process flow"><div class="flow-row"><div class="steps"><span class="step">HR starts the exit</span><span class="arrow" aria-hidden="true"></span><span class="step">PST checklist: assets, handover, access</span><span class="arrow" aria-hidden="true"></span><span class="step">Last working day</span><span class="arrow" aria-hidden="true"></span><span class="step">Sign-in removed, record kept for HR</span></div></div></div>
+<p class="label">What it does</p>
+<ul><li>HR starts an exit and sets the last working day. PST owns the exit checklist, which covers asset return, handover and access removal.</li><li>If the leaver manages people, HR is prompted to reassign their direct reports.</li><li>After the last working day, the leaver can no longer sign in. Their record is kept, and only HR can see it.</li></ul></div></details>
+<details class="card r2" id="letters"><summary><span class="card-top"><span class="chip r2">Release 2</span></span><span class="card-title">Letters</span><span class="lede">Employees get standard HR letters on demand, without waiting on HR.</span><span class="chev" aria-hidden="true"></span></summary><div class="card-body"><div class="flow" role="img" aria-label="Process flow"><div class="flow-row"><div class="steps"><span class="step">Employee requests a letter</span><span class="arrow" aria-hidden="true"></span><span class="step">HR approves (some letters)</span><span class="arrow" aria-hidden="true"></span><span class="step">Employee downloads it</span></div></div></div>
+<p class="label">What it does</p>
+<ul><li>HR maintains letter templates, such as employment verification and address proof.</li><li>Employees request a letter and download it. Some letters need HR approval first.</li><li>Every letter has a reference number and is recorded.</li></ul></div></details>
+</div>
+</section>
+<section class="release r3" id="release-3-organisation-and-communication"><div class="release-head"><span class="dot r3" aria-hidden="true"></span><h2>Release 3: Organisation and communication</h2></div>
+<div class="cards">
+<details class="card r3" id="policies-and-announcements"><summary><span class="card-top"><span class="chip r3">Release 3</span></span><span class="card-title">Policies and Announcements</span><span class="lede">One official home for policies and company news, delivered everywhere at once.</span><span class="chev" aria-hidden="true"></span></summary><div class="card-body"><div class="flow" role="img" aria-label="Process flow"><div class="flow-row"><div class="steps"><span class="step">Publisher posts</span><span class="arrow" aria-hidden="true"></span><span class="step">Portal + Email + Teams channel, under the publisher's name</span><span class="arrow" aria-hidden="true"></span><span class="step">Broadcast record kept</span></div></div></div>
+<p class="label">What it does</p>
+<ul><li>HR publishes policies with a version history. Employees acknowledge key policies, and reminders can be dismissed.</li><li>HR and named publishers post announcements to everyone, or to selected departments or pods, with optional pinning and an expiry date.</li><li>Every new policy, policy update and announcement goes out at the same time to the portal, by email, and to the company-wide Teams channel under the publisher's own name.</li><li>Each item keeps a record of when it was sent, by whom and where. Failed deliveries are retried and can be resent.</li></ul></div></details>
+<details class="card r3" id="teams-pods"><summary><span class="card-top"><span class="chip r3">Release 3</span></span><span class="card-title">Teams &amp; Pods <em>(working name)</em></span><span class="lede">Each person's pod, its lead and members, along with the leave checks that depend on team membership.</span><span class="chev" aria-hidden="true"></span></summary><div class="card-body"><div class="flow" role="img" aria-label="Process flow"><div class="flow-row"><div class="steps"><span class="step">Employee applies for leave</span><span class="arrow" aria-hidden="true"></span><span class="step">Sees pod black-out dates and who's away</span><span class="arrow" aria-hidden="true"></span><span class="step">PST warned if a role drops below half</span></div></div></div>
+<p class="label">What it does</p>
+<ul><li>HR creates pods, assigns a lead and adds members. Moves between pods are kept as history.</li><li>Employees see their pod, and pod leads see who in their pod is away, without the leave type or reason.</li><li>Each pod member has a role (Dev, QA or BQA), and each pod sets its own black-out dates.</li><li>When applying for leave, employees see their pod's black-out dates and who is already away.</li><li>PST is warned if approving leave of more than one day would leave fewer than half of a role available. Floating holidays are not checked.</li><li>Pods and their members are moved over from Frappe.</li></ul></div></details>
+<details class="card r3" id="assignments"><summary><span class="card-top"><span class="chip r3">Release 3</span></span><span class="card-title">Assignments</span><span class="lede">Retained from today's tool. Its purpose will be confirmed in the Stage 2 interviews before it is designed.</span><span class="chev" aria-hidden="true"></span></summary><div class="card-body"><p class="label">Initial idea, to be confirmed</p>
+<ul><li>Records who is working on which client and project, with dates and allocation.</li><li>Does not include billing, rates or staffing search.</li></ul></div></details>
+</div>
+</section>
+<section class="release later" id="later"><div class="release-head"><span class="dot later" aria-hidden="true"></span><h2>Later</h2></div>
+<div class="cards">
+<details class="card later" id="wider-reports-and-dashboards"><summary><span class="card-top"><span class="chip later">Later</span></span><span class="card-title">Wider reports and dashboards</span><span class="lede">Reporting beyond today's three reports, such as headcount and review completion.</span><span class="chev" aria-hidden="true"></span></summary><div class="card-body"><p class="label">What it does</p>
+<ul><li>Follows the same access rules as the rest of the platform. PIPs are never included.</li></ul></div></details>
+</div>
+</section>
+<details class="block" id="quality-standards"><summary><h2>Quality standards</h2><span class="chev" aria-hidden="true"></span></summary><div class="block-body"><div class="scroll"><table><thead><tr><th scope="col">Area</th><th scope="col">Standard</th></tr></thead><tbody><tr><td><strong>Ease of use</strong></td><td>Common tasks take a few clear steps on a laptop or phone, with intuitive navigation and menus</td></tr><tr><td><strong>Speed</strong></td><td>Common screens load in under 2 seconds</td></tr><tr><td><strong>Security</strong></td><td>Access is checked on every request, sensitive data is encrypted and masked, and an independent security review takes place before launch</td></tr><tr><td><strong>Audit</strong></td><td>Every change, and every view of sensitive data, is recorded</td></tr><tr><td><strong>Reliability</strong></td><td>Data is backed up daily, and no leave or expense record is lost or duplicated</td></tr></tbody></table></div>
+</div></details>
+<details class="block" id="main-risks"><summary><h2>Main risks</h2><span class="chev" aria-hidden="true"></span></summary><div class="block-body"><div class="scroll"><table><thead><tr><th scope="col">Risk</th><th scope="col">How we reduce it</th></tr></thead><tbody><tr><td>Leave rules turn out to be more complex than expected</td><td>Confirm the rules with PST and HR before design begins</td></tr><tr><td>Frappe data is inconsistent</td><td>Run a trial move early, and have the checks signed off before switching over</td></tr><tr><td>Someone sees data beyond their role</td><td>Check access on every request, test it for every role, and review it before launch</td></tr><tr><td>Feedback, reviews or PIPs reach the wrong person</td><td>Hide them by default, return "not found" when access is denied, record every view, and keep their content out of notifications</td></tr><tr><td>The new platform is not clearly easier to use</td><td>Test each task with real employees before launch</td></tr></tbody></table></div>
+</div></details>
+<details class="block" id="decisions-so-far"><summary><h2>Decisions so far</h2><span class="chev" aria-hidden="true"></span></summary><div class="block-body"><ul><li>Leave is approved by the pod lead first, and PST makes the final decision. HR also decides probation, maternity, paternity and possibly leave-of-absence cases <em>(to confirm)</em>.</li><li>Confirmed employees have unlimited leave.</li><li>Every employee's pod lead is recorded in Release 1, so leads can approve leave before Teams &amp; Pods arrives.</li><li>PST checks team availability and black-out dates manually until Release 3.</li><li>TA owns onboarding, assigns the buddy once the joiner has started, and sees document status rather than document contents.</li><li>Vehicle expenses are claimed under Others.</li><li>Policies &amp; Announcements remains in Release 3.</li><li>Announcements post to Teams under the publisher's own name.</li></ul>
+</div></details>
+<details class="block" id="open-questions"><summary><h2>Open questions</h2><span class="chev" aria-hidden="true"></span></summary><div class="block-body"><ol><li>Is the approval order correct (pod lead, then PST, with HR for special cases), and is leave of absence one of the HR cases?</li><li>With unlimited leave, what should a "balance" track, and which leave types are still in use?</li><li>Is Finance the only approver for expenses, and what limits apply to each category?</li><li>What is Assignments used for?</li><li>Is the pod lead the same person as the manager, is the "team" used for availability checks the same as a pod, and what should Teams &amp; Pods be called?</li><li>Should feedback be named or anonymous?</li><li>Can a PIP start without HR approval?</li><li>Should past feedback, reviews and PIPs be moved or archived?</li></ol>
+</div></details>
+    </div>
+  </main>
+</div>
+<script>
+(function () {
+  var body = document.body;
+  var all = function () { return document.querySelectorAll("main details"); };
+  document.querySelectorAll(".controls button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var open = b.dataset.act === "expand";
+      all().forEach(function (d) { d.open = open; });
+    });
+  });
+
+  function closeNav() { body.classList.remove("nav-open"); document.getElementById("menu-btn").setAttribute("aria-expanded", "false"); }
+  document.getElementById("menu-btn").addEventListener("click", function () {
+    var open = !body.classList.contains("nav-open");
+    body.classList.toggle("nav-open", open);
+    this.setAttribute("aria-expanded", String(open));
+  });
+  document.getElementById("scrim").addEventListener("click", closeNav);
+
+  function go(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    for (var p = el; p; p = p.parentElement) { if (p.tagName === "DETAILS") p.open = true; }
+    el.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+  }
+  document.querySelectorAll('.rail nav a, a.tile').forEach(function (a) {
+    a.addEventListener("click", function (e) {
+      e.preventDefault(); go(a.getAttribute("href").slice(1)); closeNav();
+    });
+  });
+
+  var links = document.querySelectorAll(".rail nav a"), map = {};
+  links.forEach(function (a) { map[a.getAttribute("href").slice(1)] = a; });
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting && map[en.target.id]) {
+          links.forEach(function (l) { l.classList.remove("active"); });
+          map[en.target.id].classList.add("active");
+        }
+      });
+    }, { rootMargin: "0px 0px -70% 0px" });
+    document.querySelectorAll(".block, .release, .part, details.card").forEach(function (t) { io.observe(t); });
+  }
+})();
+</script>
