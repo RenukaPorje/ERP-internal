@@ -15,14 +15,15 @@ This document describes what the People Platform does and who it serves. The pro
 Modules grouped by the area of work they cover. The release for each module is shown in the sections below.
 
 ```mermaid
+%%{init: {"fontFamily": "Arial, Helvetica, sans-serif", "flowchart": {"htmlLabels": false, "padding": 14}}}%%
 flowchart TB
-    A1["<b>People and organisation</b><br/>Employee Profile · Teams & Pods · Assignments"]
-    A2["<b>Time off and expenses</b><br/>Leaves · Expenses"]
-    A3["<b>Performance</b><br/>Feedback and 360 reviews · PIP"]
-    A4["<b>Joining and leaving</b><br/>Onboarding · Offboarding"]
-    A5["<b>Communication and documents</b><br/>Policies and Announcements · Letters"]
-    A6["<b>Reporting</b><br/>Reports in use today · Wider reports and dashboards"]
-    B["<b>Shared foundation, used by every module</b><br/>Sign-in and access · Audit trail · Notifications · Data move from Frappe"]
+    A1["People and organisation:<br/>Employee Profile · Teams & Pods · Assignments"]
+    A2["Time off and expenses:<br/>Leaves · Expenses"]
+    A3["Performance:<br/>Feedback and 360 reviews · PIP"]
+    A4["Joining and leaving:<br/>Onboarding · Offboarding"]
+    A5["Communication and documents:<br/>Policies and Announcements · Letters"]
+    A6["Reporting:<br/>Reports in use today · Wider reports and dashboards"]
+    B["Shared foundation, used by every module:<br/>Sign-in and access · Audit trail · Notifications · Data move from Frappe"]
     A1 ~~~ A2 ~~~ A3 ~~~ A4 ~~~ A5 ~~~ A6 ~~~ B
     classDef base stroke-width:2px,stroke-dasharray:4 3
     class B base
@@ -39,13 +40,14 @@ How the modules depend on each other:
 How the platform fits with the people who use it and the systems around it. Technology choices are made in Stage 6.
 
 ```mermaid
+%%{init: {"fontFamily": "Arial, Helvetica, sans-serif", "flowchart": {"htmlLabels": false, "padding": 14}}}%%
 flowchart TB
-    U["<b>People</b><br/>Staff sign in with their Incubyte Microsoft account<br/>Joiners use personal email before Day 1, onboarding only"]
-    W["<b>Web app</b><br/>Laptop and phone browsers"]
-    A["<b>Access check</b><br/>On every request, by role"]
-    M["<b>Modules</b><br/>See the module view above"]
-    D[("<b>Data, hosted in India</b><br/>Records, private documents, audit trail")]
-    C["<b>Connected systems</b><br/>Microsoft 365: sign-in, Outlook email, Teams channel<br/>Frappe: one-time data move, then switched off<br/>Finance: approved claims export for payout"]
+    U["People:<br/>Staff: Incubyte Microsoft account<br/>Joiners before Day 1: personal email,<br/>onboarding only"]
+    W["Web app:<br/>Laptop and phone browsers"]
+    A["Access check:<br/>On every request, by role"]
+    M["Modules:<br/>See the module view above"]
+    D[("Data, hosted in India:<br/>Records, private documents,<br/>audit trail")]
+    C["Connected systems:<br/>Microsoft 365: sign-in, email, Teams<br/>Frappe: one-time data move<br/>Finance: claims export for payout"]
     U --> W --> A --> M --> D
     M <--> C
 ```

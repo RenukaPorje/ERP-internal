@@ -52,8 +52,6 @@ Short interviews (30–45 minutes), with a walkthrough of real tasks where usefu
 | Mon 16 Nov | Managers and pod leads |
 | Tue 17 Nov | Employees, and a data check with HR and Finance |
 
-Stage approvals and the overall timeline are in the [stakeholder register](../stage-1-problem-and-vision/02-stakeholder-register.md).
-
 ## Open questions
 
 1. Who are the named contacts in PST, HR, Finance and IT?
