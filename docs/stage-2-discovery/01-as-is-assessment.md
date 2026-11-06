@@ -1,23 +1,24 @@
 # As-Is Assessment
 
-How things work today, before the new platform. Part 1 covers every module; Part 2 maps the three Release 1 tasks step by step. Gaps are filled in the interviews (see the [discovery plan](02-discovery-plan.md)).
+How things work today, before the new platform, and what to keep, fix or drop. Part 1 covers every module; Part 2 maps the three Release 1 tasks step by step. Unknowns are filled in through the interviews in the [discovery plan](02-discovery-plan.md). What the new platform adds is in the PRD.
 
 ## Part 1: Modules today
 
-| Module | Today | What we need to learn |
-|---|---|---|
-| **Employee Profile** | In the tool (see Map 3) | What employees can change themselves, and what goes through HR |
-| **Leaves** | In the tool. The pod lead approves, then PST gives the final decision; some cases go to HR *(to confirm)*. Unlimited leave after confirmation (see Map 1). | What a "balance" means under unlimited leave, which leave types are still used, and where black-out dates and quorum are tracked today |
-| **Expenses** | In the tool. Finance approves *(to confirm)*. Ten categories; vehicle expenses go under Others (see Map 2). | Limits per category, and how approved claims reach payout |
-| **Feedback** | In the tool | How feedback works today |
-| **360 reviews** | Unknown | Whether they happen, and where |
-| **PIP** | Unknown | Whether PIPs are run in the tool or outside it |
-| **Assignments** | In the tool, purpose unclear | **What it's used for, and by whom** |
-| **Teams & Pods** | Each person's pod is recorded in the tool | The right name, and whether pod lead and manager are the same person |
-| **Onboarding & Offboarding** | Unknown | Which steps happen in the tool and which in email or spreadsheets |
-| **Policies & Announcements** | Missing | Where people find them today |
-| **Letters** | Missing | Which letters people ask for most |
-| **Reports** | Leave Balance, Leave Balance Summary, Vehicle Expenses | Who uses each one, and whether any others are needed |
+| Module | Today | Keep | Fix | Drop |
+|---|---|---|---|---|
+| **Employee Profile** | In the tool (see Map 3) | One record per person | Who can see what | |
+| **Leaves** | In the tool. The pod lead approves, then PST gives the final decision; some cases go to HR *(to confirm)*. Unlimited leave after confirmation (see Map 1). | Applying in one place, pod lead then PST approval, unlimited leave after confirmation | Speed, and who can see others' leave | Unused leave types |
+| **Expenses** | In the tool. Finance approves *(to confirm)*. Ten categories; vehicle expenses go under Others (see Map 2). | Claims with receipts, including vehicle expenses | Speed, and who can see others' claims | Duplicate steps |
+| **Feedback** | In the tool | Giving feedback to colleagues | | |
+| **360 reviews** | Unknown | | | |
+| **PIP** | Unknown | | | |
+| **Assignments** | In the tool, purpose unclear | Kept as a module | After the interviews | |
+| **Teams & Pods** | Each person's pod is recorded in the tool | Pods | The name | |
+| **Onboarding & Offboarding** | Unknown | | | |
+| **Policies & Announcements** | Missing | | | |
+| **Letters** | Missing | | | |
+| **Reports** | Leave Balance, Leave Balance Summary, Vehicle Expenses | All three reports | Access limited by role | |
+| **Across the tool** | | | Access, ease of use, design, speed | Menus people can't use |
 
 ## Part 2: As-is process maps
 

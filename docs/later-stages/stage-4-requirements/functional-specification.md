@@ -10,7 +10,7 @@ For each module's purpose, who uses it and who sees what, see the Product Requir
 **Goal:** Anyone at Incubyte signs in with their Microsoft account and lands on their own profile.
 
 - [ ] Users sign in with their Incubyte Microsoft account (single sign-on). There is no username and password option anywhere.
-- [ ] Sign-in is refused for Microsoft accounts outside Incubyte, and for employees marked as exited
+- [ ] Sign-in is refused for Microsoft accounts outside Incubyte, and for employees marked as exited. The only exception is joiners before Day 1 (see Slice 16).
 - [ ] A valid Microsoft account with no matching employee record sees a "you don't have access yet, contact HR" page
 - [ ] Users are signed out after 30 minutes of inactivity **[Assumption]**. After signing out, the browser's back button doesn't show protected pages.
 
@@ -80,7 +80,7 @@ For each module's purpose, who uses it and who sees what, see the Product Requir
 - [ ] HR maintains the holiday calendar for the current and next year, marking each holiday as fixed or optional, and sets how many optional and floating holidays each employee may take
 - [ ] Employees choose optional and floating holidays up to the limit. The platform rejects a choice over the limit, or two holidays on the same date.
 - [ ] A "who's away" view shows approved leave for colleagues in the same department, without the leave type or reason. Pod leads see their members' approved and pending leave.
-- [ ] Only the employee, their approvers and HR see the leave reason
+- [ ] Only the employee, their own pod lead, PST and HR see a leave request and its reason. Other employees and other pod leads see only who is away.
 - [ ] In Release 1, PST checks team availability and black-out dates manually. Teams & Pods automates both in Release 3.
 
 ### Slice 7: Claim an expense
@@ -240,6 +240,7 @@ For each module's purpose, who uses it and who sees what, see the Product Requir
 - [ ] TA's access to a joiner ends when their checklist is closed. If TA needs a sensitive document, HR provides it, and the access is recorded.
 
 **Joiner and buddy**
+- [ ] Before Day 1, joiners sign in with their personal email and see only the onboarding module: their own tasks and document uploads. Opening anything else shows "not found". From Day 1 they sign in with their Incubyte Microsoft account, and personal-email access ends. **[Assumption: sign-in method and onboarding-only access to confirm with IT]**
 - [ ] Joiners upload requested documents, such as ID proof and education certificates, in their tasks. The platform rejects files that are too large or of an unsupported type.
 - [ ] Once the joiner has started, TA assigns a buddy, schedules a bi-weekly 1:1 between them, and gives the buddy a few tasks. The buddy sees only those tasks.
 
@@ -301,7 +302,7 @@ For each module's purpose, who uses it and who sees what, see the Product Requir
 - [ ] Only HR can create or change pods **[Assumption]**
 
 **Pod lead view**
-- [ ] Pod leads see their members' work profiles and approved and pending leave, without the leave type or reason
+- [ ] Pod leads see their members' work profiles and their approved and pending leave, including the leave type and reason
 - [ ] Pod leads never see members' sensitive details, personal contact details, feedback, reviews or PIPs. Opening someone outside their pod shows "not found", and the attempt is recorded.
 - [ ] When a member leaves the pod, the lead loses access to their profile and leave from that moment. Leavers are removed from their pod automatically.
 

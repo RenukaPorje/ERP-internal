@@ -1,5 +1,7 @@
 # Solution Architecture
 
+> **Out of date, parked until Stage 6.** Written before the current scope. Where it differs from the [PRD](../../stage-3-product-definition/02-prd.md) (releases, leave rules and approvals, roles, audit access, data move), the PRD is correct.
+
 > This document describes the system's structure, boundaries and key design decisions **independently of technology**. The language, framework and cloud provider are not yet chosen. Section 13 gives the criteria for choosing them. Wherever a decision depends on the stack, it is written as a capability ("managed PostgreSQL with point-in-time restore"), not as a product.
 
 ---

@@ -7,7 +7,7 @@ This document describes what the People Platform does and who it serves. The pro
 | | |
 |---|---|
 | **Users** | Fewer than 300 employees, all in India and all on Microsoft 365 |
-| **Sign-in** | Incubyte Microsoft account only |
+| **Sign-in** | Incubyte Microsoft account. Joiners use their personal email before Day 1, for onboarding only. |
 | **Works on** | Laptop and phone browsers |
 | **Hosting** | Data hosted in India |
 
@@ -50,7 +50,7 @@ TA's access to a joiner ends when their onboarding checklist is closed. If TA ev
 | Information | Who can see it | Who never sees it |
 |---|---|---|
 | **Personal and sensitive details** (salary, ID numbers, bank details) | The employee and HR, masked until revealed through a recorded action | Managers, pod leads, TA, Finance and Admin |
-| **Leave reasons** | The employee, their approvers (pod lead and PST) and HR | Colleagues, and managers who are not approvers |
+| **Leave requests and reasons** | The employee, their own pod lead, PST and HR | Other employees, other pod leads, and managers who are not approvers. The "who's away" view shows only that someone is away. |
 | **Expense claims and receipts** | The claimant and Finance | Everyone else |
 | **Feedback** | The giver, the recipient and HR. The recipient's manager sees an item only if the recipient shares it. | Pod leads, skip-level managers, Admin, Finance and colleagues |
 | **Review content** | The employee, each reviewer (their own review only), the direct manager and HR | Pod leads, skip-level managers, Admin, Finance and colleagues |
@@ -143,7 +143,7 @@ Microsoft sign-in → Role checked on every request → Only permitted screens a
 ```
 
 **What it does**
-- People sign in with their Incubyte Microsoft account. There are no separate passwords, and accounts from outside Incubyte are refused.
+- People sign in with their Incubyte Microsoft account. There are no separate passwords, and accounts from outside Incubyte are refused. The only exception is joiners before Day 1 (see Onboarding).
 - Access is checked on every request, not just hidden on screen.
 - Menus and buttons show only what each person can use.
 - Admin assigns roles but cannot see personal data unless they also hold the HR role.
@@ -235,6 +235,7 @@ Offer accepted → TA starts the checklist → Joiner uploads documents → Day 
 - TA owns onboarding. They set up checklist templates, with tasks due relative to the joining date for TA, HR, the manager and the joiner.
 - Adding a new employee starts their checklist. Each task owner sees their own tasks and is reminded when one is overdue.
 - TA sees every onboarding task and the status of each document, but not the contents of sensitive documents.
+- Before Day 1, joiners sign in with their personal email and see only the onboarding module: their own tasks and document uploads *(to confirm)*. From Day 1 they use their Incubyte Microsoft account.
 - Joiners upload the documents requested of them. Only the joiner and HR can open them.
 - Once the joiner has started, TA assigns a buddy, schedules a bi-weekly 1:1 between them, and gives the buddy a few tasks.
 - Assets handed over, such as a laptop, are recorded.
@@ -292,7 +293,7 @@ Employee applies for leave → Sees pod black-out dates and who's away → PST w
 
 **What it does**
 - HR creates pods, assigns a lead and adds members. Moves between pods are kept as history.
-- Employees see their pod, and pod leads see who in their pod is away, without the leave type or reason.
+- Employees see their pod and who in it is away, without the leave type or reason.
 - Each pod member has a role (Dev, QA or BQA), and each pod sets its own black-out dates.
 - When applying for leave, employees see their pod's black-out dates and who is already away.
 - PST is warned if approving leave of more than one day would leave fewer than half of a role available. Floating holidays are not checked.
@@ -356,5 +357,6 @@ Employee applies for leave → Sees pod black-out dates and who's away → PST w
 6. Should feedback be named or anonymous?
 7. Can a PIP start without HR approval?
 8. Should past feedback, reviews and PIPs be moved or archived?
-
+9. Which work does PST own and which does HR? In particular, who runs offboarding?
+10. Can joiners' personal-email access before Day 1 be limited to the onboarding module?
 [ ] Reviewed
