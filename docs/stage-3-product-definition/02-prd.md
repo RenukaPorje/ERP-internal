@@ -15,9 +15,9 @@ This document describes what the People Platform does and who it serves. The pro
 Modules grouped by the area of work they cover. The release for each module is shown in the sections below.
 
 ```mermaid
-%%{init: {"fontFamily": "Arial, Helvetica, sans-serif", "flowchart": {"htmlLabels": false, "padding": 14}}}%%
+%%{init: {"htmlLabels": false, "fontFamily": "Arial, Helvetica, sans-serif", "flowchart": {"htmlLabels": false, "padding": 16, "wrappingWidth": 400}}}%%
 flowchart TB
-    A1["People and organisation:<br/>Employee Profile · Teams & Pods · Assignments"]
+    A1["People and organisation:<br/>Employee Profile · Teams and Pods · Assignments"]
     A2["Time off and expenses:<br/>Leaves · Expenses"]
     A3["Performance:<br/>Feedback and 360 reviews · PIP"]
     A4["Joining and leaving:<br/>Onboarding · Offboarding"]
@@ -40,7 +40,7 @@ How the modules depend on each other:
 How the platform fits with the people who use it and the systems around it. Technology choices are made in Stage 6.
 
 ```mermaid
-%%{init: {"fontFamily": "Arial, Helvetica, sans-serif", "flowchart": {"htmlLabels": false, "padding": 14}}}%%
+%%{init: {"htmlLabels": false, "fontFamily": "Arial, Helvetica, sans-serif", "flowchart": {"htmlLabels": false, "padding": 16, "wrappingWidth": 400}}}%%
 flowchart TB
     U["People:<br/>Staff: Incubyte Microsoft account<br/>Joiners before Day 1: personal email,<br/>onboarding only"]
     W["Web app:<br/>Laptop and phone browsers"]

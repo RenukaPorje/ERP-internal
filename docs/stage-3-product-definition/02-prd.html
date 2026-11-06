@@ -245,9 +245,9 @@ pre.mermaid:not([data-processed]) { color: var(--muted); text-align: left; white
 <details class="block" id="platform-at-a-glance"><summary><h2>Platform at a glance</h2><span class="chev" aria-hidden="true"></span></summary><div class="block-body">
 <div class="cards">
 <details class="card " id="modules"><summary><span class="card-top"></span><span class="card-title">Modules</span><span class="lede"></span><span class="chev" aria-hidden="true"></span></summary><div class="card-body"><p>Modules grouped by the area of work they cover. The release for each module is shown in the sections below.</p>
-<div class="diagram"><div class="diagram-bar"><button type="button" data-zoom="-1" aria-label="Zoom out">−</button><button type="button" data-zoom="0">Fit</button><button type="button" data-zoom="1" aria-label="Zoom in">+</button></div><pre class="mermaid">%%{init: {"fontFamily": "Arial, Helvetica, sans-serif", "flowchart": {"htmlLabels": false, "padding": 14}}}%%
+<div class="diagram"><div class="diagram-bar"><button type="button" data-zoom="-1" aria-label="Zoom out">−</button><button type="button" data-zoom="0">Fit</button><button type="button" data-zoom="1" aria-label="Zoom in">+</button></div><pre class="mermaid">%%{init: {"htmlLabels": false, "fontFamily": "Arial, Helvetica, sans-serif", "flowchart": {"htmlLabels": false, "padding": 16, "wrappingWidth": 400}}}%%
 flowchart TB
-    A1["People and organisation:&lt;br/&gt;Employee Profile · Teams &amp; Pods · Assignments"]
+    A1["People and organisation:&lt;br/&gt;Employee Profile · Teams and Pods · Assignments"]
     A2["Time off and expenses:&lt;br/&gt;Leaves · Expenses"]
     A3["Performance:&lt;br/&gt;Feedback and 360 reviews · PIP"]
     A4["Joining and leaving:&lt;br/&gt;Onboarding · Offboarding"]
@@ -260,7 +260,7 @@ flowchart TB
 <p>How the modules depend on each other:</p>
 <ul><li>Every module uses the <strong>Employee Profile</strong>, which holds each person's manager and pod lead.</li><li><strong>Teams &amp; Pods</strong> adds black-out dates and the "who's away" check to <strong>Leaves</strong>.</li><li><strong>Onboarding</strong> starts from the joiner's profile, and <strong>Offboarding</strong> ends their sign-in.</li><li><strong>Reports</strong> draw on <strong>Leaves</strong> and <strong>Expenses</strong>.</li></ul></div></details>
 <details class="card " id="high-level-architecture"><summary><span class="card-top"></span><span class="card-title">High-level architecture</span><span class="lede"></span><span class="chev" aria-hidden="true"></span></summary><div class="card-body"><p>How the platform fits with the people who use it and the systems around it. Technology choices are made in Stage 6.</p>
-<div class="diagram"><div class="diagram-bar"><button type="button" data-zoom="-1" aria-label="Zoom out">−</button><button type="button" data-zoom="0">Fit</button><button type="button" data-zoom="1" aria-label="Zoom in">+</button></div><pre class="mermaid">%%{init: {"fontFamily": "Arial, Helvetica, sans-serif", "flowchart": {"htmlLabels": false, "padding": 14}}}%%
+<div class="diagram"><div class="diagram-bar"><button type="button" data-zoom="-1" aria-label="Zoom out">−</button><button type="button" data-zoom="0">Fit</button><button type="button" data-zoom="1" aria-label="Zoom in">+</button></div><pre class="mermaid">%%{init: {"htmlLabels": false, "fontFamily": "Arial, Helvetica, sans-serif", "flowchart": {"htmlLabels": false, "padding": 16, "wrappingWidth": 400}}}%%
 flowchart TB
     U["People:&lt;br/&gt;Staff: Incubyte Microsoft account&lt;br/&gt;Joiners before Day 1: personal email,&lt;br/&gt;onboarding only"]
     W["Web app:&lt;br/&gt;Laptop and phone browsers"]

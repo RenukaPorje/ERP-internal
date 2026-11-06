@@ -33,7 +33,7 @@ Feedback, reviews and onboarding are mapped after the interviews.
 ### Map 1: Apply for and approve leave
 
 ```mermaid
-%%{init: {"fontFamily": "Arial, Helvetica, sans-serif", "flowchart": {"htmlLabels": false, "padding": 14}}}%%
+%%{init: {"htmlLabels": false, "fontFamily": "Arial, Helvetica, sans-serif", "flowchart": {"htmlLabels": false, "padding": 16, "wrappingWidth": 400}}}%%
 flowchart LR
     A[Employee plans ahead<br/>and tells team] --> B[Applies in the tool]
     B --> L{Pod lead reviews}
@@ -58,7 +58,7 @@ flowchart LR
 ### Map 2: Submit and approve an expense
 
 ```mermaid
-%%{init: {"fontFamily": "Arial, Helvetica, sans-serif", "flowchart": {"htmlLabels": false, "padding": 14}}}%%
+%%{init: {"htmlLabels": false, "fontFamily": "Arial, Helvetica, sans-serif", "flowchart": {"htmlLabels": false, "padding": 16, "wrappingWidth": 400}}}%%
 flowchart LR
     A[Employee creates claim<br/>with receipts] --> B{Finance reviews}
     B -->|Approve| C[Paid out<br/>outside the tool]
@@ -79,7 +79,7 @@ flowchart LR
 ### Map 3: Update my profile
 
 ```mermaid
-%%{init: {"fontFamily": "Arial, Helvetica, sans-serif", "flowchart": {"htmlLabels": false, "padding": 14}}}%%
+%%{init: {"htmlLabels": false, "fontFamily": "Arial, Helvetica, sans-serif", "flowchart": {"htmlLabels": false, "padding": 16, "wrappingWidth": 400}}}%%
 flowchart LR
     A[Employee opens profile] --> B{Allowed to<br/>change it?}
     B -->|Yes| C[Edits and saves]
